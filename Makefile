@@ -20,7 +20,15 @@ clean :
 
 test : clean philspel
 	touch testOutput
+	@echo
+	@echo ======= Test: sample =======
 	cat sampleInput | ./philspel sampleDictionary > testOutput
 	@echo The following should be empty if there are no problems
 	diff sampleOutput testOutput 2> /dev/null
+	@echo Testing complete
+	@echo
+	@echo ======= Test: custom =======
+	cat customInput | ./philspel customDictionary > testOutput
+	@echo The following should be empty if there are no problems
+	diff customOutput testOutput 2> /dev/null
 	@echo Testing complete
