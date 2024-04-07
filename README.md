@@ -2,7 +2,7 @@
 
 ## Notes
 
-1. Make sure the input file is unix fmt!! See [here](https://pandacase.github.io/linux/2024/04/06/dos2unix/).
+1. Make sure the input file is unix fmt!! See [https://pandacase.github.io/linux/2024/04/06/dos2unix/](https://pandacase.github.io/linux/2024/04/06/dos2unix/).
 2. `fgets(buffer, n, fp)` the last bytes (index `n - 1`) will be `\0`.
 3. `buffer[i] = c` should not occupy the last bytes (index `n - 1` should be `\0`), otherwise the valgrind will run into error.
 4. `sizeof(char *)` will lose info after calling the function, but `strlen(char *)` still works (it depends on the terminal `\0`).
