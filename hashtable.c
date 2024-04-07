@@ -1,12 +1,16 @@
 #include "hashtable.h"
 #include <stdlib.h>
+#include <stdio.h>
 
 /*
  * This creates a new hash table of the specified size and with
  * the given hash function and comparison function.
  */
-HashTable *createHashTable(int size, unsigned int (*hashFunction)(void *),
-                           int (*equalFunction)(void *, void *)) {
+HashTable *createHashTable(
+  int size, 
+  unsigned int (*hashFunction)(void *),
+  int (*equalFunction)(void *, void *)
+) {
   int i = 0;
   HashTable *newTable = malloc(sizeof(HashTable));
   newTable->size = size;
@@ -33,6 +37,19 @@ void insertData(HashTable *table, void *key, void *data) {
   // 1. Find the right hash bucket location with table->hashFunction.
   // 2. Allocate a new hash bucket struct.
   // 3. Append to the linked list or create it if it does not yet exist. 
+  unsigned int index = table->hashFunction(key) % table->size;
+  
+  HashBucket *newBucket = (HashBucket *)malloc(sizeof(HashBucket));
+  if (newBucket == NULL) {
+    fprintf(stderr, "Malloc failed\n");
+    return;
+  }
+  newBucket->key = key;
+  newBucket->data = data;
+  newBucket->next = NULL;
+
+  newBucket->next = table->data[index];
+  table->data[index] = newBucket;
 }
 
 /*
@@ -44,4 +61,14 @@ void *findData(HashTable *table, void *key) {
   // HINT:
   // 1. Find the right hash bucket with table->hashFunction.
   // 2. Walk the linked list and check for equality with table->equalFunction.
+  unsigned int index = table->hashFunction(key) % table->size;
+
+  HashBucket *ptr = table->data[index];
+  for (; ptr != NULL; ptr = ptr->next) {
+    if (table->equalFunction(key, ptr->key)) {
+      return ptr->data;
+    }
+  }
+
+  return NULL;
 }

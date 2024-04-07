@@ -11,4 +11,8 @@ extern void readDictionary(char *dictName);
 
 extern void processInput();
 
+extern void readDictionaryPro(char *dictName);
+
+extern void processInputPro();
+
 #endif
